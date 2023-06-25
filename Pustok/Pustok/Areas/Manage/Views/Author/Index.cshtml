@@ -1,0 +1,56 @@
+﻿@model PaginatedList<Author>
+@{
+    ViewData["Title"] = "Index";
+    int dataOrder = (Model.PageIndex-1)*2;
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>Authors</h1> <a class="btn btn-primary"  asp-action="create">Create</a>
+        </div>
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">FullName</th>
+                        <th scope="col">BookCount</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        dataOrder++;
+                        <tr>
+                            <th scope="row">@dataOrder</th>
+                            <td>@item.FullName</td>
+                            <td>@item.Books.Count</td>
+                            <td>
+                                <a asp-action="edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                                <a  asp-action="delete" asp-route-id="@item.Id" class="btn btn-danger @(item.Books.Count>0?"disabled":"")">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item @(Model.HasPrev?"":"disabled")">
+                        <span class="page-link">Previous</span>
+                    </li>
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.PageIndex==i?"active":"")"><a class="page-link"  asp-route-page="@i">@i</a></li>
+                    }
+                    <li class="page-item  @(Model.HasNext?"":"disabled")">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,59 @@
+﻿@model OrderCreateViewModel
+<div id="billing-form" class="mb-40">
+    <h4 class="checkout-title">Billing Address</h4>
+    <form id="orderForm" asp-action="create" method="post">
+        <div class="row">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Member"))
+            {
+                <div class="col-12 mb--20">
+                    <label for="FullName">FullName</label>
+                    <input id="FullName" disabled  value="@Model.FullName">
+                    <input type="hidden" name="FullName" value="@Model.FullName">
+                </div>
+               <div class="col-12 mb--20">
+                    <label for="Email">Email</label>
+                    <input id="Email" disabled name="Email" value="@Model.Email">
+                    <input type="hidden" name="Email" value="@Model.Email">
+                </div>
+                 <div class="col-12 mb--20">
+                    <label for="Phone">Phone</label>
+                    <input id="Phone" disabled name="Phone" value="@Model.Phone">
+                    <input type="hidden" name="Phone" value="@Model.Phone">
+                </div>
+            }
+            else
+            {
+                <div class="col-12 mb--20">
+                    <label asp-for="FullName">FullName</label>
+                    <input asp-for="FullName">
+                    <span class="text-danger" asp-validation-for="FullName"></span>
+                </div>
+                <div class="col-12 mb--20">
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email">
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+                <div class="col-12 mb--20">
+                    <label asp-for="Phone">Phone</label>
+                    <input asp-for="Phone">
+                    <span class="text-danger" asp-validation-for="Phone"></span>
+                </div>
+            }
+
+            <div class="col-12 mb--20">
+                <label asp-for="Address">Address</label>
+                <input asp-for="Address">
+                <span class="text-danger" asp-validation-for="Address"></span>
+            </div>
+            <div class="col-12 mb--20">
+                <div class="order-note-block mt--30">
+                    <label for="order-note">Order notes</label>
+                    <textarea asp-for="Note" id="order-note" cols="30" rows="10" class="order-note"
+                              placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                    <span class="text-danger" asp-validation-for="Note"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

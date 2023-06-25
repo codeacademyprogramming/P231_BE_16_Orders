@@ -1,0 +1,37 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2">FullName: @Model.FullName</h6>
+                    <h6 class="card-subtitle mb-2">Email: @Model.Email</h6>
+                    <h6 class="card-subtitle mb-2">Phone: @Model.Phone</h6>
+                    <h6 class="card-subtitle mb-2">Address: @Model.Address</h6>
+                    <h6 class="card-subtitle mb-2">Note: @Model.Note</h6>
+                    <h6 class="card-subtitle mb-2">Date: @Model.CreatedAt.ToString("dd-MM-yyyy HH:mm")</h6>
+                    <h6 class="card-subtitle mb-2">Note: @Model.Note</h6>
+
+                    <h5 class="card-title">Order Items:</h5>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                    <h6 class="card-subtitle mb-2">@item.Book.Name x @item.Count   @((item.Book.DiscountPercent>0?item.Book.SalePrice*(100-item.Book.DiscountPercent)/100:item.Book.SalePrice).ToString("0.00"))
+
+                    </h6>
+                    }
+                    <h6 class="card-subtitle mb-2">TotalAmount: @Model.TotalAmount</h6>
+
+
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a asp-action="accept" asp-route-id="@Model.Id" class="btn btn-success">Accept</a>
+                    <a asp-action="reject" asp-route-id="@Model.Id" class="btn btn-danger">Reject</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

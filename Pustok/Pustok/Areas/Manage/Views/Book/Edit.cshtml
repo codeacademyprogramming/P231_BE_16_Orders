@@ -1,0 +1,110 @@
+﻿@model Book
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>Book Edit</h1>
+        </div>
+        <div class="col-md-8">
+            <form method="post" asp-action="edit" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label asp-for="Name">Name</label>
+                        <input asp-for="Name" class="form-control">
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="AuthorId">Author</label>
+                        <select class="form-control" asp-for="AuthorId" asp-items="new SelectList(ViewBag.Authors,nameof(Author.Id),nameof(Author.FullName))">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="GenreId">Genre</label>
+                        <select class="form-control" asp-for="GenreId" asp-items="new SelectList(ViewBag.Genres,nameof(Genre.Id),nameof(Genre.Name))">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="TagIds">Tagler</label>
+                        <select class="form-control" asp-for="TagIds" asp-items="new SelectList(ViewBag.Tags,nameof(Tag.Id),nameof(Tag.Name))">
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="SalePrice">SalePrice</label>
+                        <input asp-for="SalePrice" class="form-control">
+                        <span class="text-danger" asp-validation-for="SalePrice"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="CostPrice">CostPrice</label>
+                        <input asp-for="CostPrice" class="form-control">
+                        <span class="text-danger" asp-validation-for="CostPrice"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="DiscountPercent">DiscountPercent</label>
+                        <input asp-for="DiscountPercent" class="form-control">
+                        <span class="text-danger" asp-validation-for="DiscountPercent"></span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label asp-for="Desc">Desc</label>
+                        <textarea asp-for="Desc" class="form-control"></textarea>
+                        <span class="text-danger" asp-validation-for="Desc"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="IsNew">IsNew</label>
+                        <input asp-for="IsNew" class="form-control">
+                        <span class="text-danger" asp-validation-for="IsNew"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="IsFeatured">IsFeatured</label>
+                        <input asp-for="IsFeatured" class="form-control">
+                        <span class="text-danger" asp-validation-for="IsFeatured"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="StockStatus">StockStatus</label>
+                        <input asp-for="StockStatus" class="form-control">
+                        <span class="text-danger" asp-validation-for="StockStatus"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="PosterFile">PosterFile</label>
+                        <input asp-for="PosterFile" class="form-control">
+                        <img width="250" src="~/manage/uploads/books/@Model.BookImages.FirstOrDefault(x=>x.PosterStatus==true)?.ImageName" />
+                        <span class="text-danger" asp-validation-for="PosterFile"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="HoverPosterFile">HoverPosterFile</label>
+                        <input asp-for="HoverPosterFile" class="form-control">
+                        <img width="250" src="~/manage/uploads/books/@Model.BookImages.FirstOrDefault(x=>x.PosterStatus==false)?.ImageName" />
+                        <span class="text-danger" asp-validation-for="HoverPosterFile"></span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label asp-for="ImageFiles">ImageFiles</label>
+                        <input asp-for="ImageFiles" class="form-control">
+                        <div class="row">
+                        @foreach (var bookImage in @Model.BookImages.Where(x => x.PosterStatus == null))
+                        {
+                            <div class="col-md-6">
+                                <div class="img-box mt-2 d-inline-block">
+                                    <span class="remove-img-box" onclick="$(this).parents()[1].remove()">X</span>
+                                    <img width="250" src="~/manage/uploads/books/@bookImage.ImageName" />
+                                    <input name="BookImageIds" value="@bookImage.Id" type="hidden"/>
+                                    </div>
+                                </div>
+
+                        }
+                        </div>
+                        <span class="text-danger" asp-validation-for="ImageFiles"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    @Html.Partial("_ValidationScriptsPartial")
+}
